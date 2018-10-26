@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 humanhash: Human-readable representations of digests.
 
@@ -9,43 +10,59 @@ import operator
 import uuid as uuidlib
 
 
-DEFAULT_WORDLIST = (
-    'ack', 'alabama', 'alanine', 'alaska', 'alpha', 'angel', 'apart', 'april',
-    'arizona', 'arkansas', 'artist', 'asparagus', 'aspen', 'august', 'autumn',
-    'avocado', 'bacon', 'bakerloo', 'batman', 'beer', 'berlin', 'beryllium',
-    'black', 'blossom', 'blue', 'bluebird', 'bravo', 'bulldog', 'burger',
-    'butter', 'california', 'carbon', 'cardinal', 'carolina', 'carpet', 'cat',
-    'ceiling', 'charlie', 'chicken', 'coffee', 'cola', 'cold', 'colorado',
-    'comet', 'connecticut', 'crazy', 'cup', 'dakota', 'december', 'delaware',
-    'delta', 'diet', 'don', 'double', 'early', 'earth', 'east', 'echo',
-    'edward', 'eight', 'eighteen', 'eleven', 'emma', 'enemy', 'equal',
-    'failed', 'fanta', 'fifteen', 'fillet', 'finch', 'fish', 'five', 'fix',
-    'floor', 'florida', 'football', 'four', 'fourteen', 'foxtrot', 'freddie',
-    'friend', 'fruit', 'gee', 'georgia', 'glucose', 'golf', 'green', 'grey',
-    'hamper', 'happy', 'harry', 'hawaii', 'helium', 'high', 'hot', 'hotel',
-    'hydrogen', 'idaho', 'illinois', 'india', 'indigo', 'ink', 'iowa',
-    'island', 'item', 'jersey', 'jig', 'johnny', 'juliet', 'july', 'jupiter',
-    'kansas', 'kentucky', 'kilo', 'king', 'kitten', 'lactose', 'lake', 'lamp',
-    'lemon', 'leopard', 'lima', 'lion', 'lithium', 'london', 'louisiana',
-    'low', 'magazine', 'magnesium', 'maine', 'mango', 'march', 'mars',
-    'maryland', 'massachusetts', 'may', 'mexico', 'michigan', 'mike',
-    'minnesota', 'mirror', 'mississippi', 'missouri', 'mobile', 'mockingbird',
-    'monkey', 'montana', 'moon', 'mountain', 'muppet', 'music', 'nebraska',
-    'neptune', 'network', 'nevada', 'nine', 'nineteen', 'nitrogen', 'north',
-    'november', 'nuts', 'october', 'ohio', 'oklahoma', 'one', 'orange',
-    'oranges', 'oregon', 'oscar', 'oven', 'oxygen', 'papa', 'paris', 'pasta',
-    'pennsylvania', 'pip', 'pizza', 'pluto', 'potato', 'princess', 'purple',
-    'quebec', 'queen', 'quiet', 'red', 'river', 'robert', 'robin', 'romeo',
-    'rugby', 'sad', 'salami', 'saturn', 'september', 'seven', 'seventeen',
-    'shade', 'sierra', 'single', 'sink', 'six', 'sixteen', 'skylark', 'snake',
-    'social', 'sodium', 'solar', 'south', 'spaghetti', 'speaker', 'spring',
-    'stairway', 'steak', 'stream', 'summer', 'sweet', 'table', 'tango', 'ten',
-    'tennessee', 'tennis', 'texas', 'thirteen', 'three', 'timing', 'triple',
-    'twelve', 'twenty', 'two', 'uncle', 'undress', 'uniform', 'uranus', 'utah',
-    'vegan', 'venus', 'vermont', 'victor', 'video', 'violet', 'virginia',
-    'washington', 'west', 'whiskey', 'white', 'william', 'winner', 'winter',
-    'wisconsin', 'wolfram', 'wyoming', 'xray', 'yankee', 'yellow', 'zebra',
-    'zulu')
+DEFAULT_WORDLIST = [
+    u'中國經濟大變局', u'深度', u'少數族群', u'廣場', u'傘運週年', u'中梵協議',
+    u'圓桌', u'旅行', u'LGBT', u'香港高鐵通車',
+    u'公司新聞', u'深圳佳士工運', u'毒奶粉十年', u'談情說愛', u'疫苗之殤',
+    u'中美貿易戰', u'直播', u'異鄉人', u'影像', u'親子',
+    u'探索學院', u'端聞', u'愛慾錄', u'觀點', u'國際', u'電影',
+    u'生死觀', u'香港', u'大陸', u'GameON',
+    u'六四週年', u'台灣', u'風物', u'香港安老', u'兩韓峰會', u'城市',
+    u'STYLE', u'中國修憲', u'影像', u'北京切除',
+    u'中美貿易戰', u'互聯網審查', u'讀書時間', u'互聯網政治', u'小粉紅學',
+    u'台灣同婚法案', u'歐洲難民危機', u'網媒採訪權', u'世界公民在香港', u'特朗普來了',
+    u'編讀手記', u'玩新聞', u'雨傘反思與前瞻', u'銅鑼灣書店', u'華航罷工',
+    u'新界風雲', u'文革50年', u'巴拿馬文件', u'哲學來了！',
+    u'兒童新聞', u'創業青年', u'迷你倉火災', u'公民黑客', u'薩德事件',
+    u'遊覽車起火', u'ChangeMaker', u'給家長的信', u'英國脫歐', u'母語專題',
+    u'香港2047', u'藝術新星空', u'蔡英文新政', u'轉型正義', u'旺角騷亂',
+    u'南海爭議', u'南台大地震', u'談情說愛', u'小說連載',
+    u'里約奧運', u'華人參政', u'廢青系列', u'數洞', u'天津爆炸', u'習馬會',
+    u'七十年代來時路', u'台灣反課綱', u'起訴曾蔭權', u'緬甸大選',
+    u'曼谷爆炸', u'習近平訪美', u'金馬獎', u'香港區議會選舉', u'施政報告', u'古巴系列',
+    u'台北書展', u'強人杜特地', u'奧蘭多槍擊', u'六中全會', u'伊斯蘭國', u'特首你好',
+    u'彈劾朴槿惠', u'2016台灣大選', u'特首參選人直播', u'明報風波', u'二戰70年',
+    u'香港故宮風波', u'港珠澳大橋', u'共產主義爭論', u'家庭照相館', u'特首選戰',
+    u'泰王逝世', u'蔡英文就職', u'2017奧斯卡', u'河套科技園', u'直播立法會', u'誰選立法會？',
+    u'2016美國大選', u'菲律賓大選', u'北韓時間', u'2016中國兩會', u'詩歌與衝突',
+    u'運動創傷', u'綠茵場上', u'雄安手記', u'SOPA獲獎報導', u'劉霞獲釋',
+    u'花蓮強震', u'民主牆風波', u'宣誓風波', u'川震十年', u'香港電影金像獎', u'年度專題',
+    u'開放政府', u'十九大', u'加泰隆尼亞獨立', u'北京虐童案', u'劉曉波病逝',
+    u'解嚴三十年', u'九七20年', u'一週精選',
+    u'評論', u'記者手記', u'超執筆', u'疾病王國', u'生死無盡', u'總編周記',
+    u'書評', u'影評', u'特約', u'科技',
+    u'LifeStyle', u'澳門', u'黑鏡', u'朋丁藝廊', u'唱反調', u'職場觀察',
+    u'懷疑一切', u'國際前線', u'唔該埋單', u'福爾摩沙',
+    u'教育', u'動物公民', u'職業', u'社會', u'經濟', u'中國因素', u'圓桌禮儀',
+    u'夜歸人', u'香江霧語', u'黑啤來聊聊',
+    u'俄羅斯', u'五月風暴', u'土地大辯論', u'長春長生', u'疫苗', u'習氏修憲',
+    u'浸大', u'兩湖遊記', u'金門賭場', u'諾貝爾文學獎',
+    u'兩岸交流', u'金澤散步', u'揭開紅幕', u'讀者十論', u'解嚴三十年', u'中印對峙',
+    u'療癒時代', u'周日讀書', u'金曲獎', u'一例一休',
+    u'民主牆', u'六七暴動', u'施政報告', u'假新聞', u'移民', u'緬甸轉型', u'澳門風災',
+    u'文白之爭', u'德國大選', u'余光中逝世',
+    u'一帶一路', u'女權主義', u'故事', u'計劃生育', u'香港研究', u'女權運動', u'伊朗',
+    u'漩渦', u'斜槓青年', u'新冷戰',
+    u'盧旺達', u'宜蘭列車', u'廣東話', u'難民', u'脱歐', u'中國', u'瑞典', u'改革',
+    u'铜锣湾书店', u'长荣班机',
+    u'维冠大楼', u'奥巴马', u'踏血寻梅', u'高雄', u'艺术', u'同性婚姻', u'香港黑帮',
+    u'马来西亚', u'全面审查', u'填海计划',
+    u'天鸽', u'时钟酒店', u'躁郁症', u'赫尔辛基', u'特内里费岛', u'民主', u'天安门',
+    u'空城', u'陆生共谍', u'禁书',
+    u'地下铁事件', u'即时新闻', u'体制外', u'翻墙', u'電影十年', u'珠穆朗玛', u'ISIS',
+    u'余光中难题', u'平壤', u'台南震灾',
+    u'金融难民', u'旺角小龙女', u'基隆', u'巴拿马文件', u'柏林', u'高d价'
+]
 
 
 class HumanHasher(object):
@@ -69,7 +86,6 @@ class HumanHasher(object):
         self.wordlist = wordlist
 
     def humanize(self, hexdigest, words=4, separator='-'):
-
         """
         Humanize a given hexadecimal digest.
 
@@ -91,7 +107,6 @@ class HumanHasher(object):
 
     @staticmethod
     def compress(bytes, target):
-
         """
         Compress a list of byte values to a fixed target length.
 
@@ -120,12 +135,11 @@ class HumanHasher(object):
         segments[-1].extend(bytes[target * seg_size:])
 
         # Use a simple XOR checksum-like function for compression.
-        checksum = lambda bytes: reduce(operator.xor, bytes, 0)
+        def checksum(bytes): return reduce(operator.xor, bytes, 0)
         checksums = map(checksum, segments)
         return checksums
 
     def uuid(self, **params):
-
         """
         Generate a UUID with a human-readable representation.
 
@@ -133,8 +147,9 @@ class HumanHasher(object):
         as :meth:`humanize` (they'll be passed straight through).
         """
 
-        digest = str(uuidlib.uuid4()).replace('-', '')
-        return self.humanize(digest, **params), digest
+        uuid = str(uuidlib.uuid4())
+        digest = uuid.replace('-', '')
+        return self.humanize(digest, **params), uuid
 
 
 DEFAULT_HASHER = HumanHasher()
